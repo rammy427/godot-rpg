@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bvrjlfmasylda"]
 
-[ext_resource type="Script" uid="uid://ckdl6cjrhyd31" path="res://scenes/battle.gd" id="1_a12nh"]
+[ext_resource type="Script" uid="uid://ckdl6cjrhyd31" path="res://scripts/battle.gd" id="1_a12nh"]
 [ext_resource type="TileSet" uid="uid://dkbceunppbvod" path="res://tilesets/game_tileset.tres" id="1_dn72j"]
 [ext_resource type="PackedScene" uid="uid://bh6fwyy6cb4ae" path="res://scenes/player.tscn" id="2_th188"]
 [ext_resource type="PackedScene" uid="uid://bse0gtt3upun8" path="res://scenes/enemy.tscn" id="3_p1qf1"]
