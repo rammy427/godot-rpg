@@ -1,6 +1,6 @@
 class_name Enemy extends CharacterBody2D
 
-@export var charname: String = 'Enemy 1'
+@export var charname: String = 'GreenAI Soldier'
 @export var speed: float = 100.0
 @export var max_health: int = 200
 @export var attack: int = 40
@@ -40,5 +40,8 @@ func _on_hitbox_body_entered(_body: Node2D) -> void:
 
 func executeBattleAction(target: Player) -> void:
 	var dmg = max(1, randi_range(attack, 2 * attack) - target.defense)
-	target.health -= dmg
+	target.health = max(0, target.health - dmg)
 	print(charname, ' deals ', dmg, ' damage to ', target.charname)
+
+func isDead() -> bool:
+	return health <= 0

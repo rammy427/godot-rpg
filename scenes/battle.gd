@@ -5,6 +5,7 @@ extends Node2D
 
 var isPlayerTurn: bool = true
 var display_health: Label
+var isGameOver: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,10 +18,15 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	updateHealth()
-	if not isPlayerTurn:
-		enemy.executeBattleAction(player)
-		isPlayerTurn = true
+	if not isGameOver:
+		if not isPlayerTurn:
+			enemy.executeBattleAction(player)
+			if player.isDead():
+				isGameOver = true
+			else:
+				isPlayerTurn = true
+		
+		updateHealth()
 
 func _on_attack_pressed() -> void:
 	if isPlayerTurn:

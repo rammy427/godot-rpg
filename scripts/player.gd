@@ -2,7 +2,7 @@ class_name Player extends CharacterBody2D
 
 enum Directions {UP, DOWN, LEFT, RIGHT}
 
-@export var charname: String = 'Player 1'
+@export var charname: String = 'Eros'
 @export var speed: float = 200.0
 @export var max_health: int = 50
 @export var attack: int = 32
@@ -41,27 +41,36 @@ func update_direction() -> void:
 	
 func update_anim(direction: Vector2) -> void:
 	var anim = $AnimatedSprite2D
+	
+	# If the character is dead, play the death animation.
+	if isDead():
+		anim.play('death')
+		return
+	
 	# Always flip the character when facing left.
 	anim.flip_h = (facing == Directions.LEFT)
 	
 	# Character is moving.
 	if (direction):
 		if (facing == Directions.UP):
-			anim.play("back_walk")
+			anim.play('back_walk')
 		elif (facing == Directions.DOWN):
-			anim.play("front_walk")
+			anim.play('front_walk')
 		else:
-			anim.play("side_walk")
+			anim.play('side_walk')
 	# Character is idle.
 	else:
 		if (facing == Directions.UP):
-			anim.play("back_idle")
+			anim.play('back_idle')
 		elif (facing == Directions.DOWN):
-			anim.play("front_idle")
+			anim.play('front_idle')
 		else:
-			anim.play("side_idle")
+			anim.play('side_idle')
 
 func executeBattleAction(target: Enemy) -> void:
 	var dmg = max(1, randi_range(attack, 2 * attack) - target.defense)
-	target.health -= dmg
+	target.health = max(0, target.health - dmg)
 	print(charname, ' deals ', dmg, ' damage to ', target.charname)
+	
+func isDead() -> bool:
+	return health <= 0
