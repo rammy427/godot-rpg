@@ -53,4 +53,5 @@ layout_mode = 2
 [node name="Health" type="Label" parent="Menu/MenuItems/PlayerInfo/Player1" unique_id=833921707]
 layout_mode = 2
 
+[connection signal="battle_action_completed" from="enemy" to="." method="_on_enemy_battle_action_completed"]
 [connection signal="pressed" from="Menu/MenuItems/Actions/Attack" to="." method="_on_attack_pressed"]
