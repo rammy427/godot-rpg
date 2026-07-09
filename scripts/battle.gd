@@ -17,22 +17,23 @@ func _ready() -> void:
 	updateHealth()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not isGameOver:
-		if not isPlayerTurn:
-			enemy.executeBattleAction(player, delta)
-			if player.isDead():
-				isGameOver = true
-		
+		if player.isDead():
+			isGameOver = true
 		updateHealth()
 
 func _on_attack_pressed() -> void:
 	if isPlayerTurn:
 		player.executeBattleAction(enemy)
 		isPlayerTurn = false
+		executeEnemyTurn()
 
 func updateHealth() -> void:
 	display_health.text = var_to_str(player.health) + '/' + var_to_str(player.max_health)
+	
+func executeEnemyTurn() -> void:
+	enemy.executeBattleAction(player)
 
 func _on_enemy_battle_action_completed() -> void:
 	isPlayerTurn = true

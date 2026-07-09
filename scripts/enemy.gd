@@ -12,10 +12,9 @@ var health = max_health
 var player: Node2D = null
 var isChasingPlayer: bool = false
 var isFighting: bool = false
-var nAttacks: int = 3
-var waitTime: float = 2.0
+const nAttacks: int = 2
+const waitTime: float = 2.0
 var curAttacks: int = 0
-var curTime: float = 0.0
 
 func _ready() -> void:
 	var parentName: String = get_parent().name
@@ -44,15 +43,13 @@ func _on_hitbox_body_entered(_body: Node2D) -> void:
 	if player != null:
 		get_tree().change_scene_to_file("res://scenes/battle.tscn")
 
-func executeBattleAction(target: Player, dt: float) -> void:
-	if curAttacks < nAttacks:
-		curTime += dt
-		if curTime >= waitTime:
-			attackTarget(target)
-			curTime = 0
-			curAttacks += 1
-	else:
-		battle_action_completed.emit()
+func executeBattleAction(target: Player) -> void:
+	while curAttacks < nAttacks:
+		await get_tree().create_timer(waitTime).timeout
+		attackTarget(target)
+		curAttacks += 1
+		
+	battle_action_completed.emit()
 	
 func attackTarget(target: Player) -> void:
 	var dmg = max(1, randi_range(attack, 2 * attack) - target.defense)
