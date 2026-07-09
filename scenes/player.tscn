@@ -362,7 +362,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cs1tg")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"side_attack",
 "speed": 5.0
 }, {
@@ -424,8 +424,7 @@ script = ExtResource("1_g2els")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1563586545]
 position = Vector2(-2, -8)
 sprite_frames = SubResource("SpriteFrames_uq60h")
-animation = &"death"
-frame_progress = 0.42246103
+animation = &"side_attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=26819652]
 position = Vector2(0, 6)

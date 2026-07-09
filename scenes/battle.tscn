@@ -53,5 +53,12 @@ layout_mode = 2
 [node name="Health" type="Label" parent="Menu/MenuItems/PlayerInfo/Player1" unique_id=833921707]
 layout_mode = 2
 
+[node name="ReactionTimer" type="Timer" parent="." unique_id=935857799]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="countered_enemy" from="player" to="." method="_on_player_countered_enemy"]
+[connection signal="attacked_player" from="enemy" to="." method="_on_enemy_attacked_player"]
 [connection signal="battle_action_completed" from="enemy" to="." method="_on_enemy_battle_action_completed"]
 [connection signal="pressed" from="Menu/MenuItems/Actions/Attack" to="." method="_on_attack_pressed"]
+[connection signal="timeout" from="ReactionTimer" to="." method="_on_reaction_timer_timeout"]

@@ -1,8 +1,9 @@
 class_name Enemy extends CharacterBody2D
 
 signal battle_action_completed
+signal attacked_player
 
-@export var charname: String = 'GreenAI Soldier'
+@export var charname: String = 'Petra'
 @export var speed: float = 100.0
 @export var max_health: int = 200
 @export var attack: int = 40
@@ -14,7 +15,6 @@ var isChasingPlayer: bool = false
 var isFighting: bool = false
 const nAttacks: int = 2
 const waitTime: float = 2.0
-var curAttacks: int = 0
 
 func _ready() -> void:
 	var parentName: String = get_parent().name
@@ -43,11 +43,10 @@ func _on_hitbox_body_entered(_body: Node2D) -> void:
 	if player != null:
 		get_tree().change_scene_to_file("res://scenes/battle.tscn")
 
-func executeBattleAction(target: Player) -> void:
-	while curAttacks < nAttacks:
+func executeBattleAction() -> void:
+	for n in nAttacks:
 		await get_tree().create_timer(waitTime).timeout
-		attackTarget(target)
-		curAttacks += 1
+		attacked_player.emit()
 		
 	battle_action_completed.emit()
 	

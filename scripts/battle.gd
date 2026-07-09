@@ -3,6 +3,9 @@ extends Node2D
 @export var player: Player
 @export var enemy: Enemy
 
+@onready var reactionTimer: Timer = $ReactionTimer
+var playerCounteredEnemy: bool = false
+var enemyAttackedPlayer: bool = false
 var isPlayerTurn: bool = true
 var display_health: Label
 var isGameOver: bool = false
@@ -24,7 +27,7 @@ func _process(_delta: float) -> void:
 		updateHealth()
 
 func _on_attack_pressed() -> void:
-	if isPlayerTurn:
+	if not player.isDead() and isPlayerTurn:
 		player.executeBattleAction(enemy)
 		isPlayerTurn = false
 		executeEnemyTurn()
@@ -33,7 +36,27 @@ func updateHealth() -> void:
 	display_health.text = var_to_str(player.health) + '/' + var_to_str(player.max_health)
 	
 func executeEnemyTurn() -> void:
-	enemy.executeBattleAction(player)
+	enemy.executeBattleAction()
 
 func _on_enemy_battle_action_completed() -> void:
 	isPlayerTurn = true
+
+func _on_enemy_attacked_player() -> void:
+	enemyAttackedPlayer = true
+	if reactionTimer.is_stopped():
+		reactionTimer.start()
+
+func _on_player_countered_enemy() -> void:
+	playerCounteredEnemy = true
+	if reactionTimer.is_stopped():
+		reactionTimer.start()
+
+func _on_reaction_timer_timeout() -> void:
+	if enemyAttackedPlayer:
+		if playerCounteredEnemy:
+			print(player.charname, ' countered ', enemy.charname, '!')
+		else:
+			enemy.attackTarget(player)
+	
+	enemyAttackedPlayer = false
+	playerCounteredEnemy = false

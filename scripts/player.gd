@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody2D
 
 enum Directions {UP, DOWN, LEFT, RIGHT}
+signal countered_enemy
 
 @export var charname: String = 'Eros'
 @export var speed: float = 200.0
@@ -18,8 +19,13 @@ func _ready():
 	facing = Directions.RIGHT if isFighting else Directions.DOWN
 
 func _physics_process(_delta: float) -> void:
-	update_direction()
-	move_and_slide()
+	if isFighting:
+		if Input.is_action_just_pressed('ui_accept'):
+			$AnimatedSprite2D.play('side_attack')
+			countered_enemy.emit()
+	else:
+		update_direction()
+		move_and_slide()
 	
 func update_direction() -> void:
 	var direction: Vector2
